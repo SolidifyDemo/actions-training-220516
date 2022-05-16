@@ -1,0 +1,17 @@
+name: CI from shared workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      reason: 
+        description: "Reason for running workflow manually"
+        required: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/shared-ci.yml
+    
