@@ -13,5 +13,6 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/shared-ci.yml
-    
+    uses: SolidifyDemo/shared-templates/.github/workflows/common-build.yml@7ce717f311b5c6f4f6705f7c333c3ddf014898e5
+    with:
+      configuration: "Release"
