@@ -39,19 +39,57 @@ jobs:
   deploy_dev:
     name: "Deploy to the dev environment"
     runs-on: ubuntu-latest
+    needs: [build]
     environment: 
       name: dev
     steps:
-      - name: testing workflow
-        run: echo ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        name: webapp
+        path: webapp
+
+    - name: Login via Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy web app
+      id: deploywebapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: "actions-demo-api"
+        package: webapp
+
+    - name: az cli logout
+      run: az logout
       
   deploy_staging:
     name: "Deploy to the staging environment"
     runs-on: ubuntu-latest
+    needs: [deploy_dev]
     environment: 
       name: staging
     steps:
-      - name: testing workflow
-        run: echo ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        name: webapp
+        path: webapp
+
+    - name: Login via Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy web app
+      id: deploywebapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: "actions-demo-api"
+        package: webapp
+
+    - name: az cli logout
+      run: az logout
     
     
