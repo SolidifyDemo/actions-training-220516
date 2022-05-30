@@ -1,4 +1,4 @@
-name: CI workflow
+name: CI-CD workflow
 
 on:
   push:
@@ -35,3 +35,23 @@ jobs:
       with:
         name: webapp
         path: webapp/**
+
+  deploy_dev:
+    name: "Deploy to the dev environment"
+    runs-on: ubuntu-latest
+    environment: 
+      name: dev
+    steps:
+      - name: testing workflow
+        run: echo ${{ secrets.AZURE_CREDENTIALS }}
+      
+  deploy_staging:
+    name: "Deploy to the staging environment"
+    runs-on: ubuntu-latest
+    environment: 
+      name: staging
+    steps:
+      - name: testing workflow
+        run: echo ${{ secrets.AZURE_CREDENTIALS }}
+    
+    
